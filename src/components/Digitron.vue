@@ -86,7 +86,7 @@ export default {
 				
 			}
 
-			console.log(`The expression: ${this.expression}`)
+			//console.log(`The expression: ${this.expression}`)
 		},
 		checkForOperators(input) {
 			// eslint-disable-next-line
