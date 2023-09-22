@@ -95,6 +95,8 @@ export default {
 			return regex.test(input);
 		},
 		evaluateTheExpression(){
+			//TODO: Eval of negative integers leads to errors
+			//FIX: Wrapp the negative number in parentheses
 			if(this.expression.length === 0) return;
 
 			const rawExpression = this.expression.join('');
