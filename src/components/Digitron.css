@@ -1,0 +1,65 @@
+.digitron {
+	max-width: 50rem;
+	display: grid;
+	grid-gap: 1rem;
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.digitron-element_base {
+	height: 10vh;
+	background: linear-gradient(#250358, #440c66);
+	box-shadow: 0 2px 20px rgba(234, 78, 240, 0.2);
+	color: white;
+	font-size: 4rem;
+}
+
+.digitron-element_medium {
+	font-size: 3rem;
+	width: 50rem;
+}
+
+.digitron-button,
+.digitron-button__zero {
+	width: 100%;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	outline: none;
+	transition: background-color 0.2s ease;
+	gap: 1rem;
+}
+
+.digitron-button__zero {
+	grid-column-start: 1;
+	grid-column-end: 3;
+}
+
+.digitron-element_c {
+	grid-column-start: 2;
+	grid-column-end: 4;
+	cursor: pointer;
+}
+
+.digitron-result {
+	grid-column-start: 1;
+	grid-column-end: 4;
+	text-align: right;
+}
+
+.diigtron-calc {
+	cursor: pointer;
+	transition: width 0.2s ease-in-out, 
+	height 0.2s ease-in-out;
+}
+
+.diigtron-calc:hover{
+	width: calc(100% + 10px);
+	height: calc(100% + 10px);
+}
+
+.digitron-button:hover,
+.digitron-button__zero:hover {
+	transform: translateY(-5px);
+	transition: transform 0.2s;
+	box-shadow: 0 2px 30px rgba(234, 78, 240, 0.4);
+}

@@ -1,8 +1,11 @@
 <script>
+import "./Digitron.css";
 import {
 	BROJEVI,
 	OPERATIONS,
 } from '@/constants/digits.js'
+
+import NumBtn from "./NumBtn.vue";
 
 export default {
 	name: "Digitron",
@@ -14,12 +17,21 @@ export default {
 			OPERATIONS,
 		}
 	},
+	components: {
+		NumBtn
+	},
 	methods: {
 		addToExpression(digit) {
 			//Checking to see if the first entered symbol is a number
-			if(!parseInt(digit) && this.expression.length === 0) {
+			if(!parseInt(digit) && this.expression.length === 0 && this.result === '') {
 				return;
 			} 
+
+			// After we clicked on the = button, the result is shown but the expression array is empty
+			// That breaks the app if we want to continue with our calculations
+			if(this.result !== '' && parseInt(this.result) && this.expression.length === 0){
+				this.expression.push(this.result);
+			}
 			
 			const lastAddedElement = this.expression.slice(-1)[0];
 
@@ -74,19 +86,19 @@ export default {
 				
 			}
 
-			// console.log(`The expression: ${this.expression}`)
+			console.log(`The expression: ${this.expression}`)
 		},
 		checkForOperators(input) {
 			// eslint-disable-next-line
-			const regex = new RegExp(/[\+\-\*\/]/); 
-			const matchFound = regex.test(input);
-
-			return !!matchFound;
+			const regex = new RegExp(/[\+\-\*\/]/);
+			
+			return regex.test(input);
 		},
 		evaluateTheExpression(){
 			if(this.expression.length === 0) return;
 
 			const rawExpression = this.expression.join('');
+			
 			try{
 				this.result = String(eval(rawExpression));
 				this.expression = [];
@@ -124,7 +136,7 @@ export default {
 		>
 			C
 		</button>
-		<button 
+		<!-- <button 
 			class="digitron-element_base" 
 			v-for="broj in BROJEVI" 
 			:key="broj"
@@ -132,7 +144,13 @@ export default {
 			@click="addToExpression(broj)"
 		>
 			{{ broj }}
-		</button>
+		</button> -->
+		<NumBtn 
+			v-for="broj in BROJEVI" 
+			:key="broj"
+			:addToExpression="addToExpression"
+			:broj="broj"
+		/>
 		<button 
 			class="digitron-element_base diigtron-calc"
 			@click="evaluateTheExpression"
@@ -141,71 +159,3 @@ export default {
 		</button>
 	</div>
 </template>
-
-<style scoped>
-.digitron {
-	max-width: 50rem;
-	display: grid;
-	grid-gap: 1rem;
-	grid-template-columns: repeat(3, 1fr);
-}
-
-.digitron-element_base {
-	height: 10rem;
-	background: linear-gradient(#250358, #440c66);
-	box-shadow: 0 2px 20px rgba(234, 78, 240, 0.2);
-	color: white;
-	font-size: 5rem;
-}
-
-.digitron-element_medium {
-	font-size: 3rem;
-	width: 50rem;
-}
-
-.digitron-button,
-.digitron-button__zero {
-	width: 100%;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	outline: none;
-	transition: background-color 0.2s ease;
-	gap: 1rem;
-}
-
-.digitron-button__zero {
-	grid-column-start: 1;
-	grid-column-end: 3;
-}
-
-.digitron-element_c {
-	grid-column-start: 2;
-	grid-column-end: 4;
-	cursor: pointer;
-}
-
-.digitron-result {
-	grid-column-start: 1;
-	grid-column-end: 4;
-	text-align: right;
-}
-
-.diigtron-calc {
-	cursor: pointer;
-	transition: width 0.2s ease-in-out, 
-	height 0.2s ease-in-out;
-}
-
-.diigtron-calc:hover{
-	width: calc(100% + 10px);
-	height: calc(100% + 10px);
-}
-
-.digitron-button:hover,
-.digitron-button__zero:hover {
-	transform: translateY(-5px);
-	transition: transform 0.2s;
-	box-shadow: 0 2px 30px rgba(234, 78, 240, 0.4);
-}
-</style>
